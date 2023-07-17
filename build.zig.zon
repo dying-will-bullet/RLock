@@ -1,0 +1,5 @@
+.{
+    .name = "RLock",
+    .version = "0.1.0",
+    .dependencies = .{},
+}
