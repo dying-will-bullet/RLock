@@ -11,7 +11,7 @@ pub const RLock = struct {
     _count: u16,
 
     const Self = @This();
-    fn init() Self {
+    pub fn init() Self {
         return Self{
             .locking_thread = Atomic(Thread.Id).init(0), // 0 means it's not locked.
             .mutex = .{},
@@ -19,7 +19,7 @@ pub const RLock = struct {
         };
     }
 
-    inline fn tryLock(self: *@This()) bool {
+    pub inline fn tryLock(self: *@This()) bool {
         const current_id = Thread.getCurrentId();
         if (self.locking_thread.load(.Unordered) == current_id and current_id != 0) {
             self._count += 1;
@@ -34,7 +34,7 @@ pub const RLock = struct {
         return locking;
     }
 
-    inline fn lock(self: *@This()) void {
+    pub inline fn lock(self: *@This()) void {
         const current_id = Thread.getCurrentId();
         if (self.locking_thread.load(.Unordered) == current_id and current_id != 0) {
             self._count += 1;
@@ -45,7 +45,7 @@ pub const RLock = struct {
         self._count = 1;
     }
 
-    inline fn unlock(self: *@This()) void {
+    pub inline fn unlock(self: *@This()) void {
         std.debug.assert(self.locking_thread.load(.Unordered) == Thread.getCurrentId());
         self._count -= 1;
         if (self._count == 0) {
