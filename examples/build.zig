@@ -4,7 +4,7 @@ const pkg_name = "RLock";
 const pkg_path = "../src/lib.zig";
 
 const examples = .{
-    "default",
+    "rlock",
 };
 
 pub fn build(b: *std.build.Builder) void {
